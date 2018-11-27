@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\MarkdownHelper;
+use Maknz\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,10 +15,12 @@ class ArticleController extends AbstractController
      * Currently unused: just showing a controller with a constructor!
      */
     private $isDebug;
+    private $slack;
 
-    public function __construct(bool $isDebug)
+    public function __construct(bool $isDebug, Client $slack)
     {
         $this->isDebug = $isDebug;
+        $this->slack = $slack;
     }
 
     /**
@@ -33,6 +36,13 @@ class ArticleController extends AbstractController
      */
     public function show($slug, MarkdownHelper $markdownHelper)
     {
+        if ($slug === 'khaaaaaan') {
+            $message = $this->slack->createMessage()
+                             ->from('Khan')
+                             ->withIcon(':ghost:')
+                             ->setText('Ah, Kirk, my old friend...');
+            $this->slack->sendMessage($message);
+        }
         $comments = [
             'I ate a normal rock once. It did NOT taste like bacon!',
             'Woohoo! I\'m going on an all-asteroid diet!',
