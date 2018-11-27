@@ -11,6 +11,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
     /**
+     * Currently unused: just showing a controller with a constructor!
+     */
+    private $isDebug;
+
+    public function __construct(bool $isDebug)
+    {
+        $this->isDebug = $isDebug;
+    }
+
+    /**
      * @Route("/", name="app_homepage")
      */
     public function homepage()
