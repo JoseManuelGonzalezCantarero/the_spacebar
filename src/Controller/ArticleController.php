@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Service\MarkdownHelper;
 use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -17,7 +16,6 @@ class ArticleController extends AbstractController
      * Currently unused: just showing a controller with a constructor!
      */
     private $isDebug;
-    private $slack;
 
     public function __construct(bool $isDebug)
     {
@@ -27,9 +25,14 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="app_homepage")
      */
-    public function homepage()
+    public function homepage(EntityManagerInterface $em)
     {
-        return $this->render('article/homepage.html.twig');
+        $repository = $em->getRepository(Article::class);
+        $articles = $repository->findBy([], ['publishedAt' => 'DESC']);
+
+        return $this->render('article/homepage.html.twig',[
+            'articles' => $articles
+        ]);
     }
 
     /**
