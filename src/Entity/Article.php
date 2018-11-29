@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -206,13 +207,8 @@ class Article
      */
     public function getNonDeletedComments(): Collection
     {
-        $comments = [];
+        $criteria = CommentRepository::createNonDeletedCriteria();
 
-        foreach ($this->getComments() as $comment) {
-            if (!$comment->getIsDeleted()) {
-                $comments[] = $comment;
-            }
-        }
-        return new ArrayCollection($comments);
+        return $this->comments->matching($criteria);
     }
 }
