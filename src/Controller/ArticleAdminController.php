@@ -35,7 +35,7 @@ class ArticleAdminController extends AbstractController
             return $this->redirectToRoute('admin_article_list');
         }
 
-        return $this->render('article/new.html.twig', [
+        return $this->render('article_admin/new.html.twig', [
             'articleForm' => $form->createView()
         ]);
     }
