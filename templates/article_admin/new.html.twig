@@ -1,5 +1,11 @@
 {% extends 'content_base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/algolia-autocomplete.css') }}">
+{% endblock %}
+
 {% block content_body %}
     <h1>Launch a new Article! 🚀</h1>
 
@@ -8,7 +14,12 @@
     }) }}
 {% endblock %}
 
-{% block title %}
+{% block title %}{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script src="{{ asset('js/algolia-autocomplete.js') }}"></script>
 {% endblock %}
 
